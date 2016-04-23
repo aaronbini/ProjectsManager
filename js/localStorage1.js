@@ -6,9 +6,7 @@ window.onload = function() {
     // Add an event listener for form submissions
     document.getElementById('contactForm').addEventListener('submit', function() {
       //create new Job
-	  
-	  
-	  
+	  	  
 	  // Get the value of the name field.
       var name = document.getElementById('name').value;
 

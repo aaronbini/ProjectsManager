@@ -7,7 +7,8 @@
 
 
 //used this button as temp button for deleting certain jobs from jobsArray in localStorage
-var deleteJob = document.getElementsByTagName("button")[0];
+//remove this button at some point
+//var deleteJob = document.getElementsByTagName("button")[0];
 //global vars
 //page buttons
 var jobsDropdown = document.getElementsByTagName("button")[1]; //second button
@@ -119,7 +120,7 @@ var createJob = function () {
 	job.manPower = manPower;
 	if (job.name == '' || job.number == '' || job.street == '' || job.cityState == '' || job.foreman == '' || job.pm == '' || job.description == '') {
 		alert("There is an empty form field that must be filled out.");
-		return false;
+		//return false;
 	} else {
 		localStorage.pushArrayItem("jobsArray", job);
 		return job;
@@ -144,11 +145,11 @@ var formSubmit = function () {
 var makeUL = function () {
 	console.log("Jobs List...");
 	constructUL("jobsArray");
-	jobDropList.style.display = 'inline';
 	jobDropList.appendChild(jobList);
 	//need to hide view jobs button and create hide jobs button which when clicked hides jobs list, itself, and makes view jobs button visible
 	viewJobs.style.display = 'none';
 	hideJobs.style.display = 'inline';
+	jobDropList.style.display = 'inline';
 	
 }
 
@@ -173,13 +174,13 @@ var constructUL = function (array) {
 			//then make foreach loop that runs through each object and creates a list item
 			//list item for each job attribute
 			var job = document.createElement('ul');
-			var name = parsedArray[i]["name"];
-			var number = parsedArray[i]["number"];
-			var street = parsedArray[i]["street"];
-			var cityState = parsedArray[i]["cityState"];
-			var foreman = parsedArray[i]["foreman"];
-			var pm = parsedArray[i]["pm"];
-			var description = parsedArray[i]["description"];
+			//var name = parsedArray[i]["name"];
+			//var number = parsedArray[i]["number"];
+			//var street = parsedArray[i]["street"];
+			//var cityState = parsedArray[i]["cityState"];
+			//var foreman = parsedArray[i]["foreman"];
+			//var pm = parsedArray[i]["pm"];
+			//var description = parsedArray[i]["description"];
 			var edit = document.createElement("button");
 			var nameLI = document.createElement('li');
 			var numberLI = document.createElement('li');
