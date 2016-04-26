@@ -70,8 +70,8 @@ button {
 }
 
 /* ids*/
-#new-emp {
-	margin-top: 50px;
+.top-margin {
+	margin-top: 25px;
 }
 
 /* Heading */

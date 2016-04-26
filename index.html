@@ -15,48 +15,64 @@
   <body>
     <div class="container">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 top-margin">
 			  <button class="button-link">Delete Job</button>
-			  <h1>Create New Job</h1><button class="button-link">Create Job</button>
+			  <h1>Create New Job</h1><button id="jobsDropdown" class="button-link">Create Job</button>
 			  <div id="jobDetails"></div>
-			  <div id="jobForm">
-				
+			  <div id="jobForm" class="hidden">
+				<label for="jobName">Job Name: </label>
+				<input type="text" id="jobName">
+				<label for="jobNumber">Job Number: </label>
+				<input type="text" id="jobNumber">
+				<label for="street">Street Address: </label>
+				<input type="text" id="street">
+				<label for="cityState">City, State: </label>
+				<input type="text" id="cityState">
+				<label for="foreman">Foreman Name: </label>
+				<input type="text" id="foreman">
+				<label for="PM">PM Name: </label>
+				<input type="text" id="PM">
+				<label for="jobDescription">Job Description: </label>
+				<textarea id="jobDescription"></textarea>
+				<button type="submit" id="jobSubmit" class="button-link">Add Job</button>
 			  </div>
-			  <button class="button-link" onclick="makeUL();">View Jobs</button>
+			  <button id="viewJobs" class="button-link">View Jobs</button>
+			<div id="jobDropList" class="hidden">
+				<button id="hideJobs" class="button-link">Hide Jobs</button>
+				<ul id="jobList"></ul>
 			</div>
-			<div id="jobDropList">
-				<button class="button-link" style='display: none' onclick="hideUL();">Hide Jobs</button>
 			</div>
-			<div id="new-emp" class="col-md-3">
+			<div class="col-md-3 top-margin">
 				<p>
-					<h1>Add New Employee</h1><button class="button-link">Add</button>
+					<h1>Add New Employee</h1><button id="addEmployee" class="button-link">Add</button>
 				</p>
-				<div id="employeeForm" style='display: none;'>
+				<div id="employeeForm" class="hidden">
 					<label for="employeeFirstName">First Name: </label>
-					<input type="text" id="employeeFirstName">
-					<input type="text" id="employeeLastName">
+					<input type="text" id="empFirstName">
 					<label for="employeeLastName">Last Name: </label>
-					<input type="text" id="employeeNumber">
+					<input type="text" id="empLastName">
 					<label for="jobNumber">Employee Number: </label>
+					<input type="text" id="empNumber">
 					<label for="employeeAddress">Employee Street Address: </label>
-					<input type="text" id="employeeAddress">
-					<input type="text" id="employeeCityState">
-					<label for="employeeCityState">City, State: </label><br>
-					<label>Employee Type: </label>
-					<input type="radio" name="empradio" value="Journeyman">Journeyman<br>
-					<input type="radio" name="empradio" value="Apprentice">Apprentice<br>
-					<input type="radio" name="empradio" value="Material Handler">Material Handler<br>
+					<input type="text" id="empAddress">
+					<label for="employeeCityState">City, State: </label>
+					<input type="text" id="empCityState"><br>
+					<label>Employee Type: </label><br>
+					<input id="foreman" type="radio" name="empRadio" value="Foreman" style="float: left;">Foreman<br>
+					<input id="journeyman" type="radio" name="empRadio" value="Journeyman">Journeyman<br>
+					<input id="apprentice" type="radio" name="empRadio" value="Apprentice">Apprentice<br>
+					<input id="materialHandler" type="radio" name="empRadio" value="Material Handler">Material Handler<br>
 					<button type="submit" id="employeeSubmit" class="button-link">Add Employee</button>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-3 top-margin">
 			  <p>
 				<label for="new-task">Move Employee To or From Job</label><input id="new-task" type="text"><button>Add</button>
 			  </p>
 			</div>
-			<div class="col-md-3">
+			<div id="employeese" class="col-md-3 top-margin">
 			  <p>
-				<label for="new-task">Add Employee to Job</label><input id="new-task" type="text"><button>Add</button>
+				<label for="new-task">Add Employee to Job</label><input id="new-task" type="text"><button id="empTest" class="button-link">Select Employee</button>
 			  </p>
 			</div>
 		</div>
