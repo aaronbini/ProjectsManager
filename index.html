@@ -15,72 +15,82 @@
   <body>
     <div class="container">
 		<div class="row">
-			<div class="col-md-3 top-margin">
-			  <button class="button-link">Delete Job</button>
-			  <h1>Create New Job</h1><button id="jobsDropdown" class="button-link">Create Job</button>
+			<div class="col-md-4 top-margin">
+			  <button class="button-link hidden">Delete Job</button>
+			  <h1>Create New Job</h1>
+			  <div class="row">
+			  <button id="jobsDropdown" class="button-link col-md-6">Create Job</button>
+			  <button id="archiveJobs" class="button-link col-md-6">Archive a Job</button>
+			  </div>
 			  <div id="jobDetails"></div>
 			  <div id="jobForm" class="hidden">
-				<label for="jobName">Job Name: </label>
-				<input type="text" id="jobName">
-				<label for="jobNumber">Job Number: </label>
-				<input type="text" id="jobNumber">
-				<label for="street">Street Address: </label>
-				<input type="text" id="street">
-				<label for="cityState">City, State: </label>
-				<input type="text" id="cityState">
-				<label for="foreman">Foreman Name: </label>
-				<input type="text" id="foreman">
-				<label for="PM">PM Name: </label>
-				<input type="text" id="PM">
-				<label for="jobDescription">Job Description: </label>
-				<textarea id="jobDescription"></textarea>
+				  <!-- <form id="jobCreateForm"> -->
+					<label for="jobName">Job Name: </label>
+					<input type="text" id="jobName">
+					<label for="jobNumber">Job Number: </label>
+					<input type="text" id="jobNumber">
+					<label for="street">Street Address: </label>
+					<input type="text" id="street">
+					<label for="cityState">City, State: </label>
+					<input type="text" id="cityState">
+					<label for="foreman">Foreman Name: </label>
+					<input type="text" id="foreman">
+					<label for="PM">PM Name: </label>
+					<input type="text" id="PM">
+					<label for="jobDescription">Job Description: </label>
+					<textarea id="jobDescription"></textarea>
+				  <!-- </form> -->
 				<button type="submit" id="jobSubmit" class="button-link">Add Job</button>
 			  </div>
-			  <button id="viewJobs" class="button-link">View Jobs</button>
-			<div id="jobDropList" class="hidden">
+			  <button id="viewJobs" class="button-link">View Current Jobs</button>
+			  <div id="jobDropList" class="hidden">
 				<button id="hideJobs" class="button-link">Hide Jobs</button>
 				<ul id="jobList"></ul>
+			  </div>
+			  <button id="viewArchived" class="button-link">View Archived Jobs</button>
+			  <div id="jobArchives" class="hidden">
+				<button id="hideArchivedJobs" class="button-link"></button>
+				<ul id="archJobList"></ul>
+			  </div>
+			  <button id="finalArchive" class="button-link hidden">Archive Selected Job</button>
 			</div>
-			</div>
-			<div class="col-md-3 top-margin">
-				<p>
-					<h1>Add New Employee</h1><button id="addEmployee" class="button-link">Add</button>
-				</p>
+			<div class="col-md-4 top-margin">
+				<h1>Add New Employee</h1><button id="addEmployee" class="button-link">Add Employee</button>
 				<div id="employeeForm" class="hidden">
-					<label for="employeeFirstName">First Name: </label>
-					<input type="text" id="empFirstName">
-					<label for="employeeLastName">Last Name: </label>
-					<input type="text" id="empLastName">
-					<label for="jobNumber">Employee Number: </label>
-					<input type="text" id="empNumber">
-					<label for="employeeAddress">Employee Street Address: </label>
-					<input type="text" id="empAddress">
-					<label for="employeeCityState">City, State: </label>
-					<input type="text" id="empCityState"><br>
-					<label>Employee Type: </label><br>
-					<input id="foreman" type="radio" name="empRadio" value="Foreman" style="float: left;">Foreman<br>
-					<input id="journeyman" type="radio" name="empRadio" value="Journeyman">Journeyman<br>
-					<input id="apprentice" type="radio" name="empRadio" value="Apprentice">Apprentice<br>
-					<input id="materialHandler" type="radio" name="empRadio" value="Material Handler">Material Handler<br>
+					<!-- <form id="employeeCreateForm"> -->
+						<label for="empFirstName">First Name: </label>
+						<input type="text" id="empFirstName">
+						<label for="empLastName">Last Name: </label>
+						<input type="text" id="empLastName">
+						<label for="empNumber">Employee Number: </label>
+						<input type="text" id="empNumber">
+						<label for="empAddress">Address: </label><br>
+						<input type="text" id="empAddress">
+						<label for="empCityState">City, State: </label>
+						<input type="text" id="empCityState">
+						<label style="width: 100%">Employee Type: </label><br>
+						<input id="foreman" type="radio" name="empRadio" value="Foreman" style="position: relative; left: 0px">Foreman<br>
+						<input id="journeyman" type="radio" name="empRadio" value="Journeyman">Journeyman<br>
+						<input id="apprentice" type="radio" name="empRadio" value="Apprentice">Apprentice<br>
+						<input id="materialHandler" type="radio" name="empRadio" value="Material Handler">Material Handler<br>
+					<!-- </form> -->
 					<button type="submit" id="employeeSubmit" class="button-link">Add Employee</button>
 				</div>
 			</div>
-			<div class="col-md-3 top-margin">
-			  <p>
-				<label for="new-task">Move Employee To or From Job</label><button>Add</button>
-			  </p>
-			</div>
-			<div id="employees" class="col-md-3 top-margin">
+			<div id="employees" class="col-md-4 top-margin">
 			  <h1>Move Employee to Job</h1>
-			  <button id="empShow" class="button-link">Select Employee</button>
-			  <div id="empMoveDrop" class="hidden">
-				
+			  <button id="empShow" class="button-link">Move Employee</button>
+			  <div id="empMoveDrop" class="hiddenButPresent"></div>
+			  <div id="jobMoveDrop" class="hiddenButPresent"></div>
+			  <div id="updateEmpJob" class="hidden">
+				<button id="moveEmployee" class="button-link">Move Employee</button>
 			  </div>
-			   <div id="jobMoveDrop" class="hidden">
-				<button id="jobSelect" class = "button-link">Select Job</button>
-			  </div>
+			  <button id="viewEmpDist" class="button-link">View Employee Distribution</button>
+			  <div id="jobEmpViewDrop" class="hidden"></div>
+			  <button id="empDist" class="button-link hidden">Show Employees on Job</button>
+			  <button id="hideEmps" class="button-link hidden">Hide Employee List</button>
+			  <div id="viewEmpsOnJob" class="hidden"></div>
 			</div>
-		</div>
     </div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>

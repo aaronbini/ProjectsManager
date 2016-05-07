@@ -13,12 +13,15 @@ var optionCreate = function (array, select) {
 		var element = document.createElement('option');
 		element.innerHTML = arrayElement;
 		element.value = arrayElement;
-		select.appendChild(arrayElement);
+		select.appendChild(element);
 	})
 	return select;
 }
-
+ 
 var createJobList = function (array) {
+	//return array.map(function(job) {
+		//return job["jobName"];
+	//})
 	var jobArray = [];
 	array.forEach(function(job){
 		var name = job["jobName"];

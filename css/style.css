@@ -5,12 +5,26 @@ body {
   font-family: Lato, sans-serif;
 }
 
+
+
 .hidden {
 	display: none;
 }
 
+.hiddenButPresent {
+	visibility: hidden;
+}
+
 #container1 {
 	float: left;
+}
+
+#jobSelectButton {
+	margin: 30px 0;
+}
+
+#empMoveDrop {
+	margin: 30px 0;
 }
 
 ul {
@@ -33,10 +47,16 @@ button {
   color: #888;
   font-size: 15px;
   width: 100px;
-  margin: 10px 10px;
+  margin: 10px 0;
   font-family: Lato, sans-serif;
   cursor: pointer;
 }
+
+.move-right {
+	position: absolute;
+	right: 10px;
+}
+
 .button-link {
     padding: 10px 15px;
     background: #4479BA;
@@ -99,6 +119,7 @@ input[type="text"] {
   border-radius: 6px;
   font-family: Lato, sans-serif;
   color: #888;
+  width: 100%;
 }
 input[type="text"]:focus {
   color: #333;
