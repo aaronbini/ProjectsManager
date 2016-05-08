@@ -8,6 +8,7 @@ var deleteJob = document.getElementsByTagName("button")[0];
 var jobsDropdown = document.getElementById("jobsDropdown");
 var viewJobs = document.getElementById("viewJobs");
 var hideJobs = document.getElementById("hideJobs");
+var hideEmployees = document.getElementById("hideEmployees");
 var employeeDropdown = document.getElementById("addEmployee");
 var jobSubmit = document.getElementById("jobSubmit");
 var employeeForm = document.getElementById("employeeForm");
@@ -26,6 +27,8 @@ var finalArchive = document.getElementById("finalArchive");
 var jobForm = document.getElementById("jobForm");
 var jobDropList = document.getElementById("jobDropList");
 var jobList = document.getElementById("jobList");
+var empList = document.getElementById("empList");
+var empDropList = document.getElementById("empDropList");
 var employees = document.getElementById("employees");
 
 var jobAttrs = ["jobName", "jobNumber", "street", "cityState", "foreman", "PM", "jobDescription"];
@@ -41,30 +44,76 @@ var visibilityToggle = function (element) {
 	element.classList.toggle("hidden");
 }
 
+//tie to job cancel button
+var createJobCancel = function () {
+	//should hide and reset all forms if user doesn't want to create job or add employee
+	//so you could have a createCancelFunction function that takes a form element to be hidden, and returns a callback function bound to that
+	//same way you used bind before
+	console.log('jobcancel working');
+	toggleJobDropdown();
+	document.getElementById('jobCreateForm').reset();
+}
+
+//tie to emp cancel button
+var createEmpCancel = function () {
+	console.log('empcancel working');
+	toggleEmpDropdown();
+	document.getElementById('employeeCreateForm').reset();
+}
+
+//tie to empMove cancel button
+var createEmpMoveCancel = function () {
+	console.log('empmovecancel working');
+	visibilityToggle(empShow);
+	if(!empMoveDrop.classList.contains("hiddenButPresent")) {
+		classToggle(empMoveDrop, "hiddenButPresent");
+	}
+	if(!jobMoveDrop.classList.contains("hiddenButPresent")) {
+		classToggle(jobMoveDrop, "hiddenButPresent");
+	}
+	if(empShow.classList.contains("hidden")) {
+		visibilityToggle(empShow);
+	}
+	if(!document.getElementById("updateEmpJob").classList.contains("hidden")) {
+		visibilityToggle(document.getElementById("updateEmpJob"));
+	}
+	visibilityToggle(document.getElementById('empMoveCancel'));
+	document.getElementById('employeeSelected').selectedIndex = 0;
+	if(document.getElementById('jobSelected')) {
+		document.getElementById('jobSelected').selectedIndex = 0;
+	}
+	//classToggle(jobMoveDrop, "hiddenButPresent");
+	//visibilityToggle(empMoveDrop);
+	//visibilityToggle(jobMoveDrop);
+}
+
 //creates form for adding new jobs
-var createJobDropdown = function () {
-	visibilityToggle(jobForm);
+var toggleJobDropdown = function () {
+	visibilityToggle(jobCreateForm);
 	visibilityToggle(jobsDropdown);
 }
 
-//job object is created by running reduce on the jobAttrs array, with setAttribute as the callback for reduce
-//reduce runs first with empty {} as first parameter of setAttribute and the first element in the jobAttrs array as the second parameter
+var toggleEmpDropdown = function () {
+	visibilityToggle(employeeCreateForm);
+	visibilityToggle(employeeDropdown);
+}
+
 //newly created job is pushed to jobsArray in localStorage
 //also appendJobListItem is run on newly created job so that it is immediately viewable 
-var createJob = function () {
-	var job = jobAttrs.reduce(setAttribute, {});
+var createJob = function (job) {
 	var jobUL = document.createElement('ul');
-	if (formIsValid(job)) {
-		console.log("Form is Valid");
-		localStorage.pushArrayItem("jobsArray", job);
-		//jobsArray.push(job);
-		jobList.appendChild(appendJobListItem(job, jobUL));
-		jobDropList.appendChild(jobList);
-	} else {
-		//instead of alert, visibilityToggle should be run on a hard-coded html message
-		//as well as in the future keeping form visible and highlighting field that needs to be filled out
-		alert("There is an empty form field that must be filled out.");
-	}
+	localStorage.pushArrayItem("jobsArray", job);
+	jobList.appendChild(appendJobListItem(job, jobUL));
+	jobDropList.appendChild(jobList);
+}
+
+//modeled after createJob function, using same functions but using empAttrs instead of jobAttrs
+var createEmp = function (emp) {
+	var empUL = document.createElement('ul');
+	localStorage.pushArrayItem("employeesArray", emp);
+	//this appends newly created job to the list, need to replicate this for the selects
+	empList.appendChild(appendEmpListItem(emp, empUL));
+	empDropList.appendChild(empList);
 }
 
 //sets object value to returned value from extractValue
@@ -100,7 +149,7 @@ var extractValue = function (id) {
  var formIsValid = function (obj) {
 	for(var field in obj) {
 		if(obj.hasOwnProperty(field)) {
-			if(field.length === 0) {
+			if(obj[field].length === 0) {
 				return false;
 			}
 		}
@@ -108,21 +157,36 @@ var extractValue = function (id) {
 	return true;
 }
 
+//job object is created by running reduce on the jobAttrs array, with setAttribute as the callback for reduce
+//reduce runs first with empty {} as first parameter of setAttribute and the first element in the jobAttrs array as the second parameter
 //when form is submitted, form is hidden, create job button is displayed
-var formSubmit = function () {
-	createJob();
-	visibilityToggle(jobsDropdown);
-	visibilityToggle(jobForm);
-	//reset only works on html forms, need to troubleshoot this
-	//jobForm.reset();
+var formSubmit = function (event) {
+	var job = jobAttrs.reduce(setAttribute, {});
+	if (formIsValid(job)) {
+		createJob(job);
+		toggleJobDropdown();
+		document.getElementById('jobCreateForm').reset();
+		event.preventDefault();
+	} else {
+		//instead of alert, visibilityToggle should be run on a hard-coded html message
+		//as well as in the future keeping form visible and highlighting field that needs to be filled out
+		alert("There is an empty form field that must be filled out.");
+		event.preventDefault();
+	}
 }
 
 //when form is submitted, form is hidden and reset, add employee button is displayed
-var empFormSubmit = function () {
-	createEmp();
-	visibilityToggle(employeeForm);
-	visibilityToggle(employeeDropdown);
-	document.getElementById("employeeCreateForm").reset();
+var empFormSubmit = function (event) {
+	var emp = empAttrs.reduce(setAttribute, {});
+	if (formIsValid(emp)) {
+		createEmp(emp);
+		toggleEmpDropdown();
+		document.getElementById("employeeCreateForm").reset();
+		event.preventDefault();
+	} else {
+		alert('There is an empty form field that must be filled out.');
+		event.preventDefault();
+	}
 	
 }
 
@@ -139,29 +203,61 @@ var makeUL = function () {
 	}
 }
 
+var makeEmpUL = function () {
+	if (localStorage.getArray("employeesArray").length < 1) {
+		//instead of alert this should be hard-coded html message that is visibility toggled
+		alert("There are no employees to view.");
+		visibilityToggle(hideEmps);
+	} else {
+		visibilityToggle(viewEmps);
+		visibilityToggle(empDropList);
+	}
+}
+
 //hides jobs list
 var hideUL = function() {
 	visibilityToggle(viewJobs);
 	visibilityToggle(jobDropList);
 }
 
+var hideEmpUL = function () {
+	visibilityToggle(viewEmps);
+	visibilityToggle(empDropList);
+}
+
 //creates an unordered list for each current job using string values in jobAttrs array
 //runs getText on each string value from jobAttrs and returns a certain string depending on value
 var appendJobListItem = function (jobObj, ul) {
   jobAttrs.forEach(function(attr) {
-    var attribute = getText(attr);
+    var attribute = getJobText(attr);
 	var value = jobObj[attr];
-	var label = document.createElement('label');
-    var element = document.createElement('li');
-	var br = document.createElement('br');
-	element.innerHTML = /*getText(attr) + */ value;
-	label.innerHTML = attribute;
-	//label.appendChild(element);
-    ul.appendChild(label);
+	var element = document.createElement('li');
+	element.innerHTML = attribute + value;
 	ul.appendChild(element);
-	ul.appendChild(br);
+})
+  ul.appendChild(createButton("", "Edit Job", "button-link edit", editJob));
+  //ul.appendChild('<li>=================</li>');
+  return ul;
+}
+
+//creates an unordered list for each current job using string values in jobAttrs array
+//runs getText on each string value from jobAttrs and returns a certain string depending on value
+var appendEmpListItem = function (empObj, ul) {
+  empAttrs.forEach(function(attr) {
+    var attribute = getEmpText(attr);
+	var value = empObj[attr];
+	var element = document.createElement('li');
+	element.innerHTML = attribute + value;
+	ul.appendChild(element);
+	if(attr = "empNumber") {
+		ul.id = empObj[attr];
+	}
   })
-  ul.appendChild(createButton("", "Edit Job", "button-link edit"));
+  //important functionality to be added here for edit button, data-attr, binding a callback to the empID, etc.
+  ul.appendChild(createButton("", "Edit Employee", "button-link edit", editJob));
+  var par = document.createElement('p');
+  par.innerHTML = ('====================');
+  ul.appendChild(par);
   return ul;
 }
 
@@ -177,8 +273,18 @@ var constructUL = function (arrayName, list, element) {
 	element.appendChild(list);
 }
 
+var constructEmpUL = function (arrayName, list, element) {
+	var parsedArray = localStorage.getArray(arrayName);
+	
+	for(var i = 0; i < parsedArray.length; i++) {
+		var empUL = document.createElement('ul');
+		list.appendChild(appendEmpListItem(parsedArray[i], empUL));
+	}
+	element.appendChild(list);
+}
+
 //switch statement that returns a different string for each string passed to it  
-var getText = function (attr) {
+var getJobText = function (attr) {
 	switch (attr) {
 		case("jobName"):
 			return "Job Name: ";
@@ -205,6 +311,32 @@ var getText = function (attr) {
 	}
 }
 
+//switch statement that returns a different string for each string passed to it  
+var getEmpText = function (attr) {
+	switch (attr) {
+		case("empFirstName"):
+			return "First Name: ";
+			break;
+		case("empLastName"):
+			return "Last Name: ";
+			break;
+		case("empNumber"):
+			return "ID Number: ";
+			break;
+		case("empAddress"):
+			return "Street: ";
+			break;
+		case("empCityState"):
+			return "City, State: ";
+			break;
+		case("empType"):
+			return "Employee Type: ";
+			break;
+		default:
+			return "Job Attribute: ";
+	}
+}
+
 //use splice to remove job object from array
 
 //add data-attribute to edit button that has job id for that particular job
@@ -215,36 +347,61 @@ var getText = function (attr) {
 //edit job information and update jobsArray
 var editJob = function () {
 	console.log("edit button functional");
-	//look at unordered list, forEach list item within ul, split at the colon and text to the right of the colon becomes text input
+	var selectedEmployee;
+	var employees = localStorage.getArray("employeesArray");
+	var ul = this.parentNode;
+	employees.forEach(function(emp) {
+		if(ul.id === emp["empNumber"]) {
+			selectedEmployee = emp;
+		}
+	})
+	for(x in selectedEmployee) {
+        if(document.getElementById(selectedEmployee[x])) {
+			document.getElementById(selectedEmployee[x]).selected = true;
+		} else if (document.getElementById(x)) {
+			document.getElementById(x).value = selectedEmployee[x];
+		}
+	}
+	
+	visibilityToggle(document.getElementById("employeeCreateForm"));
+	employeeSubmit.innerHTML = "Save Employee";
+	visibilityToggle(employeeDropdown);
+	visibilityToggle(empList);
 	//edit button toggles to save button when user is editing
 	//when save button is clicked edited user input is used to replace the contents of the job object within the jobsArray
 }
 
-//creates dropdown form for adding new employees
-var createEmployeeDropdown = function () {
-	visibilityToggle(employeeForm);
-	visibilityToggle(employeeDropdown);
+var submitEmpEdits = function () {
+	//need to replace existing employee object in employeesArray with updated information
+	//look at formSubmit, determine best way to do this
+	
+	employeeSubmit.innerHTML = "Add Employee";
+	visibilityToggle
 }
 
-//modeled after createJob function, using same functions but using empAttrs instead of jobAttrs
-var createEmp = function () {
-	var emp = empAttrs.reduce(setAttribute, {});
-	
-	if (formIsValid(emp)) {
-		localStorage.pushArrayItem("employeesArray", emp);
-		//employeesArray.push(emp);
-		console.log(emp);
-	} else {
-		alert("There is an empty form field that must be filled out.");
-	}
+/*var form = document.getElementById("myForm");
+var formItems = form.getElementsByTagName("input");
+for(x in formItems) {
+    if(formItems[x].type == "text") {
+         formItems[x].value = dataArr[x];
+    }
+} */
+
+var objectToArray = function(obj) {
+    var arr =[];
+    for(x in obj) {
+        arr.push(obj[x]);
+    }
+      return arr;
 }
 
 //create button with certain id, innerHTML, and class
-var createButton = function (buttonId, buttonText, buttonClass) {
+var createButton = function (buttonId, buttonText, buttonClass, callback) {
 	var button = document.createElement('button');
 	button.innerHTML = buttonText;
 	button.id = buttonId;
-	button.className = buttonClass;
+	button.classList = buttonClass;
+	button.onclick = callback;
 	return button;
 }
 
@@ -305,40 +462,28 @@ var appendEmpSelect = function(element, idName, arrayName) {
 	return empSelect;
 }
 
-//this is the function that is called to show job select dropdown, DRYed in order to create this list in multiple locations
-//can be used for archivedJobs array, but not employees array yet
-//has to be called inside helper function(below showJobSelectFinal) because otherwise it runs when showEmpSelect is run?
-var showJobSelect = function (element, func, idName, arrayName) {
+//DRYed showSelect function for jobs and employees array
+//call this function whenever a select element with all current jobs or employees is required
+var showSelect = function (callback, element, func, idName, arrayName, alertMessage) {
 	if (localStorage.getArray(arrayName).length < 1) {
-		alert("There are no current jobs.");
+		alert("There are no current " + alertMessage + ".");
 		return;
 	} else if (!element.hasChildNodes()) {
-		appendJobSelect(element, idName, arrayName);
+		callback(element, idName, arrayName);
 	}
 	//below line assumes element already exists but is hidden
 	element.classList.remove("hiddenButPresent");
 	document.getElementById(idName).addEventListener("change", func);
 }
 
-var showJobSelectFinal = function () {
-	showJobSelect(jobMoveDrop, showMoveEmp, "jobSelected", "jobsArray");
+function showJobSelect(){
+    showSelect(appendJobSelect, jobMoveDrop, showMoveEmp, "jobSelected", "jobsArray", "jobs");
 }
 
-var showEmpSelect = function (element, func, idName, arrayName) {
-	if (localStorage.getArray(arrayName).length < 1) {
-		alert("There are no current jobs.");
-		return;
-	} else if (!element.hasChildNodes()) {
-		appendEmpSelect(element, idName, arrayName);
-	}
+var showEmpSelect = function () {
+	showSelect(appendEmpSelect, empMoveDrop, showJobSelect, "employeeSelected", "employeesArray", "employees");
+	visibilityToggle(document.getElementById('empMoveCancel'));
 	visibilityToggle(empShow);
-	//below line assumes element already exists but is hidden
-	element.classList.remove("hiddenButPresent");
-	document.getElementById(idName).addEventListener("change", func);
-}
-
-var showEmpSelectFinal = function () {
-	showEmpSelect(empMoveDrop, showJobSelectFinal, "employeeSelected", "employeesArray");
 }
 
 var showMoveEmp = function () {
@@ -365,6 +510,7 @@ var updateEmployeeJob = function () {
 	})
 	localStorage.setItem("employeesArray", JSON.stringify(array));
 	visibilityToggle(empShow);
+	visibilityToggle(document.getElementById('empMoveCancel'));
 	empMoveDrop.classList.add("hiddenButPresent");
 	jobMoveDrop.classList.add("hiddenButPresent");
 	updateEmpJob.classList.add("hidden");
@@ -384,7 +530,7 @@ var showDistEmp = function () {
 //runs showJobSelect, creating a select element with all current jobs
 var jobsSelectList = function () {
 	console.log("jobs list...");
-	showJobSelect(jobEmpViewDrop, showDistEmp, "jobSelector", "jobsArray");
+	showSelect(appendJobSelect, jobEmpViewDrop, showDistEmp, "jobSelector", "jobsArray", "There are no current jobs.");
 	visibilityToggle(jobEmpViewDrop);
 	visibilityToggle(viewEmpDist);
 }
@@ -458,6 +604,7 @@ var jobsSelectArchive = function () {
 var archiveSelectedJob = function () {
 	localStorage.moveArrayItem("jobsArray", "archivedJobs", filterByJobName, updateJobsArray);
 	constructUL("jobsArray", jobList, jobDropList);
+	showJobSelect(jobArchives, showArchiveButton, "jobSelecting", "jobsArray");
 	
 	//need to un-append archived job from the jobDropList that is viewable when "View Jobs" is clicked
 }
@@ -468,7 +615,11 @@ var archiveSelectedJob = function () {
 //would be good to DRY first two functions because they are just returning opposites from one another
 var filterByJobName = function (element) {
 	//this will run on each element in jobsArray
-	return element["jobName"] === document.getElementById("jobSelecting").value;//change "selectItem based on the id of the select item
+	//if (element["jobName"] === document.getElementById("jobSelecting").value) {
+	//	toArray.push(JSON.stringify(element));
+//} else {
+		return element["jobName"] === document.getElementById("jobSelecting").value;//change "selectItem based on the id of the select item
+	//}
 }
 
 //if name equals jobname push to other array, return false, else return true;
@@ -543,6 +694,7 @@ window.onload = function() {
 	if (localStorage) {
 		//constructs jobs list when window is loaded, but is not visible because has class "hidden"
 		constructUL("jobsArray", jobList, jobDropList);
+		constructEmpUL("employeesArray", empList, empDropList);
 	}
     //Create empty jobs array in localStorage
 	//Create empty employees array in localStorage
@@ -557,18 +709,24 @@ window.onload = function() {
 	}
 }
 
-jobsDropdown.addEventListener("click", createJobDropdown);
+jobsDropdown.addEventListener("click", toggleJobDropdown);
 jobSubmit.addEventListener("click", formSubmit);
 deleteJob.addEventListener("click", erase);
-employeeDropdown.addEventListener("click", createEmployeeDropdown);
+employeeDropdown.addEventListener("click", toggleEmpDropdown);
+viewEmps.addEventListener("click", makeEmpUL);
 viewJobs.addEventListener("click", makeUL);
 hideJobs.addEventListener("click", hideUL);
+hideEmployees.addEventListener("click", hideEmpUL);
 employeeSubmit.addEventListener("click", empFormSubmit);
-empShow.addEventListener("click", showEmpSelectFinal);
+empShow.addEventListener("click", showEmpSelect);
 viewEmpDist.addEventListener("click", jobsSelectList);
 empDist.addEventListener("click", makeEmpList);
 document.getElementById("moveEmployee").addEventListener("click", updateEmployeeJob);
 archiveJobs.addEventListener("click", jobsSelectArchive);
 finalArchive.addEventListener("click", archiveSelectedJob);
 jobList.addEventListener("click", editJob);
+document.getElementById('jobCancel').addEventListener("click", createJobCancel);
+document.getElementById('empCancel').addEventListener("click", createEmpCancel);
+document.getElementById('empMoveCancel').addEventListener("click", createEmpMoveCancel);
+
 

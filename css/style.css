@@ -5,7 +5,26 @@ body {
   font-family: Lato, sans-serif;
 }
 
+.center {
+    /*width: 50%;*/
+    margin: 0 auto; 
+}
 
+.border { 
+	min-height: 450px;
+	border: 1px solid #BBB; 
+	position: relative;
+ }  
+ 
+ /*.border:before { 
+ content: ''; 
+ border: 1px solid #FFF; 
+ width: 100%; 
+ height: 100%; 
+ position: absolute; 
+ top: -1px; 
+ left: -1px; }
+ */
 
 .hidden {
 	display: none;
