@@ -6,8 +6,9 @@ body {
 }
 
 .center {
-    /*width: 50%;*/
-    margin: 0 auto; 
+    margin: auto;
+    width: 85%;
+    padding: 15px;
 }
 
 .border { 
