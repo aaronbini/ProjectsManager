@@ -16,13 +16,14 @@
     <div class="container">
 		<div class="row">
 			<div class="col-md-4 top-margin border">
-				<button class="button-link">Delete Job</button>
+				<button class="button-link hidden">Delete Job</button>
 				<h1 class="center">Create New Job</h1>
 				<div class="row">
 					  <div class="col-sm-2"></div>
 					  <button id="jobsDropdown" class="button-link col-sm-3">Create Job</button>
 					  <div class="col-sm-2"></div>
 					  <button id="archiveJobs" class="button-link col-sm-3">Archive a Job</button>
+					  <button id="jobArchCancel" class="button-link hidden">Cancel Job Archiving</button>
 					  <div class="col-sm-2"></div>
 				</div>
 				<div id="jobDetails"></div>
@@ -41,10 +42,10 @@
 						<input type="text" id="PM">
 						<label for="jobDescription">Job Description: </label>
 						<textarea id="jobDescription"></textarea>
-						<button type="submit" id="jobSubmit" class="button-link">Add Job</button>
-						<button id="jobCancel" class="button-link">Cancel</button>
+						<button type="button" id="jobSubmit" class="button-link">Add Job</button>
 					</form>
 					<button id="jobEditSave" class="button-link hidden">Save Edits</button>
+					<button id="jobCancel" class="button-link hidden">Cancel</button>
 					<div class="row">
 						<div class="col-md-2"></div>
 						<button id="viewJobs" class="button-link col-md-3">View Current Jobs</button>
@@ -56,10 +57,12 @@
 						<button id="hideJobs" class="button-link">Hide Jobs</button>
 						<ul id="jobList"></ul>
 					</div>
-					<div id="jobArchives" class="hidden"></div>
-						<button id="hideArchivedJobs" class="button-link hidden">Hide Archived Jobs</button>
+					<div id="jobArchives" class="hidden center">
+						<button id="hideArchivedJobs" class="button-link">Hide Archived Jobs</button>
 						<ul id="archJobList"></ul>
-						<button id="finalArchive" class="button-link hidden">Archive Selected Job</button>
+					</div>
+					<div id="jobArchSelect" class="hidden"></div>
+					<button id="finalArchive" class="button-link hidden">Archive Selected Job</button>
 			</div>
 			<div class="col-md-4 top-margin border">
 				<h1>Add New Employee</h1>
@@ -86,10 +89,10 @@
 						<input id="Journeyman" type="radio" name="empRadio" value="Journeyman">Journeyman<br>
 						<input id="Apprentice" type="radio" name="empRadio" value="Apprentice">Apprentice<br>
 						<input id="Material Handler" type="radio" name="empRadio" value="Material Handler">Material Handler<br>
-						<button type="submit" id="employeeSubmit" class="button-link">Add Employee</button>
-						<button id="empCancel" class="button-link">Cancel</button>
+						<button type="button" id="employeeSubmit" class="button-link">Add Employee</button>
 					</form>
 					<button id="empEditSave" class="button-link hidden">Save Edits</button>
+					<button id="empCancel" class="button-link hidden">Cancel</button>
 					<div id="empDropList" class="hidden">
 						<button id="hideEmployees" class="button-link">Hide Employees</button>
 						<ul id="empList"></ul>
@@ -99,12 +102,13 @@
 			  <h1>Move Employee to Job</h1>
 			  <button id="empShow" class="button-link">Move Employee</button>
 			  <button id="empMoveCancel" class="button-link hidden">Cancel</button>
-			  <div id="empMoveDrop" class="hiddenButPresent"></div>
-			  <div id="jobMoveDrop" class="hiddenButPresent"></div>
-			  <div id="updateEmpJob" class="hidden">
-				<button id="moveEmployee" class="button-link">Move Employee</button>
-			  </div>
 			  <button id="viewEmpDist" class="button-link">View Employee Distribution</button>
+			  <div id="empMoveDrop" class="hidden"></div>
+			  <div id="jobMoveDrop" class="hidden"></div>
+			  <!-- <div id="updateEmpJob" class="hidden"> -->
+				<button id="moveEmployee" class="button-link hidden">Move Employee</button>
+			  <!-- </div> -->
+			  
 			  <div id="jobEmpViewDrop" class="hidden"></div>
 			  <button id="empDist" class="button-link hidden">Show Employees on Job</button>
 			  <button id="hideEmps" class="button-link hidden">Hide Employee List</button>
