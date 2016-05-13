@@ -52,7 +52,7 @@ var createEmployeeSelect = function() {
 var createJobSelect = function() {
 	var jobArray = createJobList(localStorage.getArray("jobsArray"));
 	var jobSelect = selectCreate("jobs", "jobSelected");
-	
+	//selectOptionCreate(jobArray, jobSelect
 	optionCreate(jobArray, jobSelect);
 	jobMoveDrop.appendChild(createButton("selectJob", "Select Job", "button-link"));
 	return jobSelect;	

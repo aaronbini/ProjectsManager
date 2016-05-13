@@ -4,13 +4,23 @@ body {
   color: #333;
   font-family: Lato, sans-serif;
 }
-
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
 .center {
+	text-align: center;
     margin: auto;
     width: 85%;
     padding: 15px;
 }
-
+.btn-margin {
+	margin: 10px;
+}
 .border { 
 	min-height: 450px;
 	border: 1px solid #BBB; 
@@ -33,6 +43,22 @@ body {
 
 .hiddenButPresent {
 	visibility: hidden;
+}
+
+#moveButtons {
+	margin-bottom: 20px;
+}
+
+#empShow {
+	margin-right: 5px;
+}
+
+#viewEmpDist {
+	margin-left: 5px;
+}
+
+#viewJobsButtons {
+	margin-bottom: 20px;
 }
 
 #container1 {
@@ -109,7 +135,7 @@ button {
     border: solid 1px #203E5F;
 }
 
-/* ids*/
+
 .top-margin {
 	margin-top: 25px;
 }
@@ -150,13 +176,13 @@ label[for='new-task'] {
   display: block;
   margin: 0 0 20px;
 }
-input#new-task, input#job-name {
+/* input#new-task, input#job-name {
   float: left;
   width: 318px;
-}
-p > button:hover {
+} */
+/*p > button:hover {
   color: #0FC57C;
-}
+} */
 
 /* Task list */
 li {
@@ -164,11 +190,11 @@ li {
   padding: 5px 0;
   /* border-bottom: 1px solid #eee; */
 }
-li > input[type="checkbox"] {
+/* li > input[type="checkbox"] {
   margin: 0 10px;
   position: relative;
   top: 15px;
-}
+} */
 li > label {
   font-size: 18px;
   line-height: 20px;
@@ -178,9 +204,9 @@ li > label {
 li >  input[type="text"] {
   width: 226px;
 }
-li > .delete:hover {
+/* li > .delete:hover {
   color: #CF2323;
-}
+} */
 
 /* Completed */
 #completed-tasks label {
