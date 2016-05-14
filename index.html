@@ -15,54 +15,115 @@
   <body>
     <div class="container">
 		<div class="row">
-			<div class="col-md-3">
-			  <button class="button-link">Delete Job</button>
-			  <h1>Create New Job</h1><button class="button-link">Create Job</button>
-			  <div id="jobDetails"></div>
-			  <div id="jobForm">
-				
-			  </div>
-			  <button class="button-link" onclick="makeUL();">View Jobs</button>
-			</div>
-			<div id="jobDropList">
-				<button class="button-link" style='display: none' onclick="hideUL();">Hide Jobs</button>
-			</div>
-			<div id="new-emp" class="col-md-3">
-				<p>
-					<h1>Add New Employee</h1><button class="button-link">Add</button>
-				</p>
-				<div id="employeeForm" style='display: none;'>
-					<label for="employeeFirstName">First Name: </label>
-					<input type="text" id="employeeFirstName">
-					<input type="text" id="employeeLastName">
-					<label for="employeeLastName">Last Name: </label>
-					<input type="text" id="employeeNumber">
-					<label for="jobNumber">Employee Number: </label>
-					<label for="employeeAddress">Employee Street Address: </label>
-					<input type="text" id="employeeAddress">
-					<input type="text" id="employeeCityState">
-					<label for="employeeCityState">City, State: </label><br>
-					<label>Employee Type: </label>
-					<input type="radio" name="empradio" value="Journeyman">Journeyman<br>
-					<input type="radio" name="empradio" value="Apprentice">Apprentice<br>
-					<input type="radio" name="empradio" value="Material Handler">Material Handler<br>
-					<button type="submit" id="employeeSubmit" class="button-link">Add Employee</button>
+			<div class="col-md-4 top-margin border">
+				<h1 class="center">Create New Job</h1>
+				<div class="row">
+					  <div class="col-sm-1"></div>
+					  <button id="jobsDropdown" class="btn btn-primary col-sm-4">Create Job</button>
+					  <div class="col-sm-2"></div>
+					  <button id="archiveJobs" class="btn btn-primary col-sm-4">Archive a Job</button>
+					  <div class="col-sm-1"></div>
 				</div>
+				<div id="jobDetails"></div>
+					<form id="jobCreateForm" class="hidden">
+						<label for="jobName">Job Name: </label>
+						<input type="text" id="jobName">
+						<label for="jobNumber">Job Number: </label>
+						<input type="text" id="jobNumber">
+						<label for="street">Street Address: </label>
+						<input type="text" id="street">
+						<label for="cityState">City, State: </label>
+						<input type="text" id="cityState">
+						<label for="foreman">Foreman Name: </label>
+						<input type="text" id="foreman">
+						<label for="PM">PM Name: </label>
+						<input type="text" id="PM">
+						<label for="jobDescription">Job Description: </label>
+						<textarea id="jobDescription"></textarea>
+						<button type="button" id="jobSubmit" class="btn btn-success">Add Job</button>
+					</form>
+					<button id="jobEditSave" class="btn btn-info hidden">Save Edits</button>
+					<button id="jobCancel" class="btn btn-warning hidden">Cancel</button>
+					<div class="row"></div>
+					<div id="viewJobsButtons bottom-margin" class="row">
+						<div class="col-sm-1"></div>
+						<button id="viewJobs" class="btn btn-info col-sm-4">View Jobs</button>
+						<div class="col-sm-2"></div>
+						<button id="viewArchived" class="btn btn-info col-sm-4">View Old Jobs</button>
+						<div class="col-sm-1"></div>
+					</div>
+					<div id="jobDropList" class="hidden center">
+						<button id="hideJobs" class="btn btn-info">Hide Jobs</button>
+						<ul id="jobList"></ul>
+					</div>
+					<div id="jobArchives" class="hidden center">
+						<button id="hideArchivedJobs" class="btn btn-info">Hide Archived Jobs</button>
+						<ul id="archJobList"></ul>
+					</div>
+					<div id="jobArchSelect" class="hidden"></div>
+					<button id="jobArchCancel" class="btn btn-warning hidden col-sm-4 right-margin">Cancel</button>
+					<button id="finalArchive" class="btn btn-primary hidden left-margin">Archive Selected Job</button>
 			</div>
-			<div class="col-md-3">
-			  <p>
-				<label for="new-task">Move Employee To or From Job</label><input id="new-task" type="text"><button>Add</button>
-			  </p>
+			<div class="col-md-4 top-margin border">
+				<h1 class="center">Add New Employee</h1>
+					<div class="row">
+						<div class="col-sm-1"></div>
+						<button id="addEmployee" class="btn btn-primary col-sm-5 right-margin">Add Employee</button>
+						<button id="viewEmps" class="btn btn-primary col-sm-5 left-margin">View Employees</button>
+						<div class="col-sm-1"></div>
+					</div>
+					<form id="employeeCreateForm" class="hidden">
+						<label for="empFirstName">First Name: </label>
+						<input type="text" id="empFirstName">
+						<label for="empLastName">Last Name: </label>
+						<input type="text" id="empLastName">
+						<label for="empNumber">Employee Number: </label>
+						<input type="text" id="empNumber">
+						<label for="empAddress">Address: </label><br>
+						<input type="text" id="empAddress">
+						<label for="empCityState">City, State: </label>
+						<input type="text" id="empCityState">
+						<label style="width: 100%">Employee Type: </label><br>
+						<input id="Foreman" type="radio" name="empRadio" value="Foreman" style="position: relative; left: 0px">Foreman<br>
+						<input id="Journeyman" type="radio" name="empRadio" value="Journeyman">Journeyman<br>
+						<input id="Apprentice" type="radio" name="empRadio" value="Apprentice">Apprentice<br>
+						<input id="Material Handler" type="radio" name="empRadio" value="Material Handler">Material Handler<br>
+						<button type="button" id="employeeSubmit" class="btn btn-success">Add Employee</button>
+					</form>
+					<button id="empEditSave" class="btn btn-success hidden">Save Edits</button>
+					<button id="empCancel" class="btn btn-warning hidden">Cancel</button>
+					<div id="empDropList" class="hidden center">
+						<button id="hideEmployees" class="btn btn-info">Hide Employees</button>
+						<ul id="empList"></ul>
+					</div>
 			</div>
-			<div class="col-md-3">
-			  <p>
-				<label for="new-task">Add Employee to Job</label><input id="new-task" type="text"><button>Add</button>
-			  </p>
+			<div id="employees" class="col-md-4 top-margin border">
+			  <h1 class="center">Move Employee to Job</h1>
+			  <div id="moveButtons bottom-margin" class="row">
+				<div class="col-sm-1"></div>
+				<button id="empShow" class="btn btn-primary col-sm-5 right-margin">Move Employee</button>
+				<button id="viewEmpDist" class="btn btn-info col-sm-5 left-margin">Employees By Job</button>
+				<div class="col-sm-1"></div>
+			  </div>
+			  <div id="empMoveDrop" class="hidden"></div>
+			  <div id="jobMoveDrop" class="hidden"></div>
+			  <button id="empMoveCancel" class="btn btn-warning hidden right-margin">Cancel</button>
+			  <button id="moveEmployee" class="btn btn-success hidden left-margin">Move Employee</button>
+			  <div id="jobEmpViewDrop" class="hidden"></div>
+			  <button id="jobEmpCancel" class="hidden btn btn-warning right-margin">Cancel</button>
+			  <button id="empDist" class="btn btn-info hidden left-margin">Show Job Employees</button>
+			  <button id="hideEmps" class="btn btn-info hidden">Hide Employee List</button>
+			  <div id="viewEmpsOnJob" class="hidden center"></div>
 			</div>
-		</div>
     </div>
+</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
+	
+	<script type="text/javascript" src="js/shared.js"></script>
+	<script type="text/javascript" src="js/localStorage.js"></script>
+	<script type="text/javascript" src="js/jobs.js"></script>
+	<script type="text/javascript" src="js/employees.js"></script>
+	<script type="text/javascript" src="js/employeeMove.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </body>
