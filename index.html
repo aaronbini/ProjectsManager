@@ -16,7 +16,6 @@
     <div class="container">
 		<div class="row">
 			<div class="col-md-4 top-margin border">
-				<button class="button-link hidden">Delete Job</button>
 				<h1 class="center">Create New Job</h1>
 				<div class="row">
 					  <div class="col-sm-1"></div>
@@ -46,7 +45,7 @@
 					<button id="jobEditSave" class="btn btn-info hidden">Save Edits</button>
 					<button id="jobCancel" class="btn btn-warning hidden">Cancel</button>
 					<div class="row"></div>
-					<div id="viewJobsButtons" class="row">
+					<div id="viewJobsButtons bottom-margin" class="row">
 						<div class="col-sm-1"></div>
 						<button id="viewJobs" class="btn btn-info col-sm-4">View Jobs</button>
 						<div class="col-sm-2"></div>
@@ -62,17 +61,16 @@
 						<ul id="archJobList"></ul>
 					</div>
 					<div id="jobArchSelect" class="hidden"></div>
-					<button id="jobArchCancel" class="btn btn-warning hidden col-sm-4">Cancel</button>
-					<button id="finalArchive" class="btn btn-primary hidden">Archive Selected Job</button>
+					<button id="jobArchCancel" class="btn btn-warning hidden col-sm-4 right-margin">Cancel</button>
+					<button id="finalArchive" class="btn btn-primary hidden left-margin">Archive Selected Job</button>
 			</div>
 			<div class="col-md-4 top-margin border">
 				<h1 class="center">Add New Employee</h1>
 					<div class="row">
-						<div class="col-md-1"></div>
-						<button id="addEmployee" class="btn btn-primary col-md-4">Add Employee</button>
-						<div class="col-md-2"></div>
-						<button id="viewEmps" class="btn btn-primary col-md-4">View Employees</button>
-						<div class="col-md-1"></div>
+						<div class="col-sm-1"></div>
+						<button id="addEmployee" class="btn btn-primary col-sm-5 right-margin">Add Employee</button>
+						<button id="viewEmps" class="btn btn-primary col-sm-5 left-margin">View Employees</button>
+						<div class="col-sm-1"></div>
 					</div>
 					<form id="employeeCreateForm" class="hidden">
 						<label for="empFirstName">First Name: </label>
@@ -92,34 +90,33 @@
 						<input id="Material Handler" type="radio" name="empRadio" value="Material Handler">Material Handler<br>
 						<button type="button" id="employeeSubmit" class="btn btn-success">Add Employee</button>
 					</form>
-					<button id="empEditSave" class="button-link hidden">Save Edits</button>
+					<button id="empEditSave" class="btn btn-success hidden">Save Edits</button>
 					<button id="empCancel" class="btn btn-warning hidden">Cancel</button>
-					<div id="empDropList" class="hidden">
+					<div id="empDropList" class="hidden center">
 						<button id="hideEmployees" class="btn btn-info">Hide Employees</button>
 						<ul id="empList"></ul>
 					</div>
 			</div>
 			<div id="employees" class="col-md-4 top-margin border">
 			  <h1 class="center">Move Employee to Job</h1>
-			  <div id="moveButtons" class="row">
+			  <div id="moveButtons bottom-margin" class="row">
 				<div class="col-sm-1"></div>
-				<button id="empShow" class="btn btn-primary col-sm-5">Move Employee</button>
-				<button id="viewEmpDist" class="btn btn-info col-sm-5">Employees By Job</button>
+				<button id="empShow" class="btn btn-primary col-sm-5 right-margin">Move Employee</button>
+				<button id="viewEmpDist" class="btn btn-info col-sm-5 left-margin">Employees By Job</button>
 				<div class="col-sm-1"></div>
 			  </div>
 			  <div id="empMoveDrop" class="hidden"></div>
 			  <div id="jobMoveDrop" class="hidden"></div>
-			  <button id="empMoveCancel" class="btn btn-warning hidden">Cancel</button>
-			  <!-- <div id="updateEmpJob" class="hidden"> -->
-				<button id="moveEmployee" class="btn btn-success hidden">Move Employee</button>
-			  <!-- </div> -->
-			  
+			  <button id="empMoveCancel" class="btn btn-warning hidden right-margin">Cancel</button>
+			  <button id="moveEmployee" class="btn btn-success hidden left-margin">Move Employee</button>
 			  <div id="jobEmpViewDrop" class="hidden"></div>
-			  <button id="empDist" class="btn btn-info hidden">Show Job Employees</button>
+			  <button id="jobEmpCancel" class="hidden btn btn-warning right-margin">Cancel</button>
+			  <button id="empDist" class="btn btn-info hidden left-margin">Show Job Employees</button>
 			  <button id="hideEmps" class="btn btn-info hidden">Hide Employee List</button>
-			  <div id="viewEmpsOnJob" class="hidden"></div>
+			  <div id="viewEmpsOnJob" class="hidden center"></div>
 			</div>
     </div>
+</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	
 	<script type="text/javascript" src="js/shared.js"></script>

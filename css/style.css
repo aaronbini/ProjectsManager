@@ -4,74 +4,6 @@ body {
   color: #333;
   font-family: Lato, sans-serif;
 }
-.col-centered {
-    display:inline-block;
-    float:none;
-    /* reset the text-align */
-    text-align:left;
-    /* inline-block space fix */
-    margin-right:-4px;
-}
-.center {
-	text-align: center;
-    margin: auto;
-    width: 85%;
-    padding: 15px;
-}
-.btn-margin {
-	margin: 10px;
-}
-.border { 
-	min-height: 450px;
-	border: 1px solid #BBB; 
-	position: relative;
- }  
- 
- /*.border:before { 
- content: ''; 
- border: 1px solid #FFF; 
- width: 100%; 
- height: 100%; 
- position: absolute; 
- top: -1px; 
- left: -1px; }
- */
-
-.hidden {
-	display: none;
-}
-
-.hiddenButPresent {
-	visibility: hidden;
-}
-
-#moveButtons {
-	margin-bottom: 20px;
-}
-
-#empShow {
-	margin-right: 5px;
-}
-
-#viewEmpDist {
-	margin-left: 5px;
-}
-
-#viewJobsButtons {
-	margin-bottom: 20px;
-}
-
-#container1 {
-	float: left;
-}
-
-#jobSelectButton {
-	margin: 30px 0;
-}
-
-#empMoveDrop {
-	margin: 30px 0;
-}
 
 ul {
   margin: 0;
@@ -87,6 +19,7 @@ li, h3 {
 input, button {
   outline: none;
 }
+
 button {
   background: none;
   border: 0px;
@@ -98,62 +31,11 @@ button {
   cursor: pointer;
 }
 
-.move-right {
-	position: absolute;
-	right: 10px;
-}
-
-.button-link {
-    padding: 10px 15px;
-    background: #4479BA;
-    color: #FFF;
-	-webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    border: solid 1px #20538D;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
-	-webkit-transition-duration: 0.2s;
-    -moz-transition-duration: 0.2s;
-    transition-duration: 0.2s;
-	-webkit-user-select:none;
-    -moz-user-select:none;
-}
-
-.button-link:hover, .button-link:focus {
-    background: #356094;
-    border: solid 1px #2A4E77;
-    text-decoration: none;
-}
-.button-link:active {
-    -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
-    -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
-    background: #2E5481;
-    border: solid 1px #203E5F;
-}
-
-
-.top-margin {
-	margin-top: 25px;
-}
-
-/* Heading */
-h3 {
-  color: #333;
-  font-weight: 700;
-  font-size: 15px;
-  border-bottom: 2px solid #333;
-  padding: 30px 0 10px;
-  margin: 0;
-  text-transform: uppercase;
- }
 label {
   color: #333;
   float: left;	
 }
+
 input[type="text"] {
   margin: 5px;
   font-size: 18px;
@@ -167,62 +49,79 @@ input[type="text"] {
   color: #888;
   width: 100%;
 }
+
 input[type="text"]:focus {
   color: #333;
 }
 
-/* New Task */
-label[for='new-task'] {
-  display: block;
-  margin: 0 0 20px;
-}
-/* input#new-task, input#job-name {
-  float: left;
-  width: 318px;
-} */
-/*p > button:hover {
-  color: #0FC57C;
-} */
-
-/* Task list */
 li {
   overflow: hidden;
   padding: 5px 0;
-  /* border-bottom: 1px solid #eee; */
 }
-/* li > input[type="checkbox"] {
-  margin: 0 10px;
-  position: relative;
-  top: 15px;
-} */
+
 li > label {
   font-size: 18px;
   line-height: 20px;
   width: 237px;
   padding: 0 0 0 6px;
 }
+
 li >  input[type="text"] {
   width: 226px;
 }
-/* li > .delete:hover {
-  color: #CF2323;
-} */
 
-/* Completed */
-#completed-tasks label {
-  text-decoration: line-through;
-  color: #888;
+.top-margin {
+	margin-top: 25px;
 }
 
-/* Edit Task */
-ul li input[type=text] {
-  display:none;
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+.center {
+	text-align: center;
+    margin: auto;
+    width: 85%;
+    padding: 15px;
+}
+.btn-margin {
+	margin: 20px;
+	padding: 20px;
+}
+.border { 
+	min-height: 450px;
+	border: 1px solid #BBB; 
+	position: relative;
+ }  
+ 
+.hidden {
+	display: none;
 }
 
-ul li.editMode input[type=text] {
-  display:block;
+.hiddenButPresent {
+	visibility: hidden;
 }
 
-ul li.editMode label {
-  display:none;
+.left-margin {
+	margin-left: 5px;
+}
+
+.right-margin {
+	margin-right: 5px;
+}
+
+.bottom-margin {
+	margin-bottom: 20px;
+}
+
+#jobSelectButton {
+	margin: 30px 0;
+}
+
+#empMoveDrop {
+	margin: 30px 0;
 }

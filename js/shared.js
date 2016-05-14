@@ -18,10 +18,7 @@ var hideElement = function (element) {
 
 //sets object value to returned value from extractValue
  var setAttribute = function (obj, id) {
-	
 	obj[id] = extractValue(id);
-	//console.log(obj);
-	
 	return obj;
 }
 
@@ -57,15 +54,14 @@ var extractValue = function (id) {
 }
 
 //DRYed form submit function for creating new job or employee, and editing job or employee
-var formSubmit = function (event, reduceArray, func1, func2, element1, element2, element3, element4) {
+var formSubmit = function (event, reduceArray, func1, func2, func3, element1, element2) {
 	var obj = reduceArray.reduce(setAttribute, {});
 	if (formIsValid(obj)) {
 		func1(obj);
 		func2();
-		showElement(element1);
-		showElement(element2);
-		hideElement(element4);
-		element3.reset();
+		func3();
+		hideElement(element2);
+		element1.reset();
 		event.preventDefault();
 	} else {
 		alert("There is an empty form field that must be filled out.");
@@ -76,14 +72,16 @@ var formSubmit = function (event, reduceArray, func1, func2, element1, element2,
 }
 
 //creates unordered list depending on passed in parameters
-var makeUL = function (arrayName, items, element1, element2, element3) {
+var makeUL = function (arrayName, items, element1, element2, func1, func2) {
 	if (localStorage.getArray(arrayName).length < 1) {
 		//instead of alert this should be hard-coded html message that is visibility toggled
 		alert("There are no " + items + " to view.");
 		hideElement(element1);
+		func1();
 	} else {
-		hideElement(element2);
-		showElement(element3);
+		func2();
+		showElement(element1);
+		showElement(element2);
 	}
 }
 
@@ -123,16 +121,21 @@ var selectOptionCreate = function (array, html) {
 
 //DRYed showSelect function for jobs and employees array
 //call this function whenever a select element with all current jobs or employees is required
-var showSelect = function (callback, element, func, idName, arrayName, alertMessage) {
+var showSelect = function (callback, element1, element2, func1, idName, arrayName, alertMessage, func2, func3) {
 	if (localStorage.getArray(arrayName).length < 1) {
 		alert("There are no current " + alertMessage + ".");
+		func2();
+		//func2 shows fullMenu
 		return;
-	} else if (!element.hasChildNodes()) {
-		callback(element, idName, arrayName);
+	} else if (!element1.hasChildNodes()) {
+		//func3 hides fullMenu
+		callback(element1, idName, arrayName);
 	}
 	//below line assumes element already exists but is hidden
-	showElement(element);
-	document.getElementById(idName).addEventListener("change", func);
+	showElement(element1);
+	showElement(element2);
+	func3();
+	document.getElementById(idName).addEventListener("change", func1);
 }
 
 var doNothing = function () {}
@@ -142,9 +145,9 @@ window.onload = function() {
   // Check for LocalStorage support.
 	if (localStorage) {
 		//constructs jobs list when window is loaded, but is not visible because has class "hidden"
-		constructUL("jobsArray", jobList, jobDropList);
+		constructUL("jobsArray", jobList, jobDropList, appendJobListItem);
 		constructEmpUL("employeesArray", empList, empDropList);
-		constructUL("archivedJobs", archJobList, jobArchives);
+		constructUL("archivedJobs", archJobList, jobArchives, appendArchJobListItem);
 	}
     //Create empty jobs array in localStorage
 	//Create empty employees array in localStorage

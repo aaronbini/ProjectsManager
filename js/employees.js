@@ -10,7 +10,6 @@ var viewEmps = document.getElementById("viewEmps");
 var hideEmployees = document.getElementById("hideEmployees");
 var employeeDropdown = document.getElementById("addEmployee");
 var employeeSubmit = document.getElementById("employeeSubmit");
-var empShow = document.getElementById("empShow");
 var empCancel = document.getElementById('empCancel');
 var empEditSave = document.getElementById("empEditSave");
 var empForm = document.getElementById("employeeCreateForm");
@@ -30,22 +29,22 @@ var createEmp = function (emp) {
 	empDropList.appendChild(empList);
 	updateEmpSelects();
 }
+
 //submit employee form
 var empFormSubmit = function () {
-	return formSubmit(event, empAttrs, createEmp, hideEmpForm, employeeDropdown, viewEmps, empForm, empCancel);
+	return formSubmit(event, empAttrs, createEmp, hideEmpForm, showFullEmpMenu, empForm, empCancel);
 }
 //submit edited employee
 var editEmpFormSubmit = function () {
-	return formSubmit(event, empAttrs, doNothing, hideEmpForm, employeeDropdown, viewEmps, empForm, empCancel);
+	return formSubmit(event, empAttrs, doNothing, hideEmpForm, showFullEmpMenu, empForm, empCancel);
 }
 
 //cancel new employee addition
 var createEmpCancel = function (event) {
-	console.log('empcancel working');
 	hideEmpForm();
 	hideElement(empCancel);
 	hideElement(empEditSave);
-	showElement(viewEmps);
+	showFullEmpMenu();
 	empForm.reset();
 	event.preventDefault();
 }
@@ -53,24 +52,40 @@ var createEmpCancel = function (event) {
 //shows form for adding new employees
 var showEmpForm = function () {
 	showElement(empForm);
-	hideElement(employeeDropdown);
 	showElement(empCancel);
 	showElement(employeeSubmit);
 }
+
+var showEditEmpForm = function () {
+	showElement(empForm);
+	showElement(empCancel);
+	showElement(empEditSave);
+}
+
 //hides form
 var hideEmpForm = function () {
 	hideElement(empForm);
+	hideElement(empCancel);
+}
+
+var showFullEmpMenu = function () {
 	showElement(employeeDropdown);
-	showElement(empCancel);
+	showElement(viewEmps);
+}
+
+var hideFullEmpMenu = function () {
+	hideElement(employeeDropdown);
+	hideElement(viewEmps);
 }
 
 var makeEmpUL = function () {
-	makeUL("employeesArray", "employees", hideEmployees, viewEmps, empDropList);
+	makeUL("employeesArray", "employees", hideEmployees, empDropList, showFullEmpMenu, hideFullEmpMenu);
 }
 
 //hides emp list
 var hideEmpUL = function () {
 	showElement(viewEmps);
+	showElement(employeeDropdown);
 	hideElement(empDropList);
 }
 
@@ -153,13 +168,9 @@ var editEmp = function () {
 			field.value = val;
 		}
 	}
-	
-	showElement(empForm);
-	showElement(empEditSave);
-	showElement(empCancel);
-	hideElement(employeeDropdown);
+	showEditEmpForm();
+	hideFullEmpMenu();
 	hideElement(empDropList);
-	showElement(viewEmps);
 	hideElement(employeeSubmit);
 }
 
@@ -167,10 +178,12 @@ var editEmp = function () {
 var submitEmpEdits = function () {
 	var editedEmployee = editEmpFormSubmit();
 	localStorage.editArrayItem("employeesArray", "empNumber", selectedEmployee["empNumber"], editedEmployee);
-	hideElement(empEditSave);
 	clearList(empList);
 	constructEmpUL("employeesArray", empList, empDropList);
 	updateEmpSelects();
+	hideEmpForm();
+	showFullEmpMenu();
+	hideElement(empEditSave);
 }
 
 //creates array that contains only employee names
@@ -194,9 +207,6 @@ var appendEmpSelect = function(element, idName, arrayName) {
 	return empSelect;
 }
 
-//for employees there is only one select
-//element empMoveDrop, with select of id "employeeSelected"
-
 //updates emp selects when called
 //call this when submitting form for new employee, and after editing employee
 //these functions are: submitEmpEdits, createEmp
@@ -206,7 +216,9 @@ var updateEmpSelects = function () {
 }
 
 //employee event listeners
+employeeSubmit.addEventListener("click", empFormSubmit);
 employeeDropdown.addEventListener("click", showEmpForm);
+employeeDropdown.addEventListener("click", hideFullEmpMenu);
 viewEmps.addEventListener("click", makeEmpUL);
 hideEmployees.addEventListener("click", hideEmpUL);
 empCancel.addEventListener("click", createEmpCancel);

@@ -17,6 +17,7 @@ var hideJobs = document.getElementById("hideJobs");
 var hideArchivedJobs = document.getElementById('hideArchivedJobs');
 var jobSubmit = document.getElementById("jobSubmit");
 var jobCancel = document.getElementById('jobCancel');
+var jobArchCancel = document.getElementById("jobArchCancel");
 var jobArchives = document.getElementById("jobArchives");
 var archiveJobs = document.getElementById("archiveJobs");
 var finalArchive = document.getElementById("finalArchive");
@@ -42,17 +43,17 @@ var createJob = function (job) {
 
 //submit job form
 var jobFormSubmit = function () {
-	return formSubmit(event, jobAttrs, createJob, hideJobForm, jobsDropdown, viewJobs, jobForm, jobCancel); 
+	return formSubmit(event, jobAttrs, createJob, hideJobForm, showFullJobMenu, jobForm, jobCancel);
 }
 //submit edited job
 var editJobFormSubmit = function () {
-	return formSubmit(event, jobAttrs, doNothing, hideJobForm, jobsDropdown, viewJobs, jobForm, jobCancel);
+	return formSubmit(event, jobAttrs, doNothing, hideJobForm, showFullJobMenu, jobForm, jobCancel);
 }
 
 //cancel new job creation
 var createJobCancel = function (event) {
 	hideJobForm();
-	showElement(viewJobs);
+	showFullJobMenu();
 	hideElement(jobEditSave);
 	hideElement(jobCancel);
 	jobForm.reset();
@@ -64,10 +65,10 @@ var createArchiveJobCancel = function () {
 		showElement(document.getElementById('jobSelecting'));
 		
 	}
+	showFullJobMenu();
 	hideElement(finalArchive);
 	hideElement(jobArchives);
-	showElement(archiveJobs);
-	hideElement(document.getElementById('jobArchCancel'));
+	hideElement(jobArchCancel);
 	hideElement(jobArchSelect);
 	document.getElementById('jobSelecting').selectedIndex = 0;
 }
@@ -75,38 +76,69 @@ var createArchiveJobCancel = function () {
 //shows form for adding new jobs
 var showJobForm = function () {
 	showElement(jobForm);
-	hideElement(jobsDropdown);
 	showElement(jobCancel);
 	showElement(jobSubmit);
+}
+
+var showEditJobForm = function () {
+	showElement(jobForm);
+	showElement(jobCancel);
+	showElement(jobEditSave);
 }
 
 //hides form
 var hideJobForm = function () {
 	hideElement(jobForm);
-	showElement(jobsDropdown);
 	hideElement(jobCancel);
 }
 
-//functions for displaying jobs and employees
+//creates unordered list depending on passed in parameters
+/* //creates unordered list depending on passed in parameters
+var makeUL = function (arrayName, items, element1, element2, func1, func2) {
+	if (localStorage.getArray(arrayName).length < 1) {
+		//instead of alert this should be hard-coded html message that is visibility toggled
+		alert("There are no " + items + " to view.");
+		hideElement(element1);
+		func1();
+	} else {
+		func2();
+		showElement(element1);
+		showElement(element2);
+	}
+} */
+var showFullJobMenu = function () {
+	showElement(viewJobs);
+	showElement(viewArchived);
+	showElement(jobsDropdown);
+	showElement(archiveJobs);
+}
+
+var hideFullJobMenu = function () {
+	hideElement(viewJobs);
+	hideElement(viewArchived);
+	hideElement(jobsDropdown);
+	hideElement(archiveJobs);
+}
+
 var makeJobUL = function () {
-	makeUL("jobsArray", "jobs", hideJobs, viewJobs, jobDropList);
+	makeUL("jobsArray", "jobs", hideJobs, jobDropList, showFullJobMenu, hideFullJobMenu);
 }
 
 var makeArchJobUL = function () {
 	//need to create some of these elements
-	makeUL("archivedJobs", "archived jobs", hideArchivedJobs, viewArchived, jobArchives);
+	makeUL("archivedJobs", "archived jobs", hideArchivedJobs,jobArchives, showFullJobMenu, hideFullJobMenu);
 }
 
 //hides jobs list
 var hideUL = function() {
-	showElement(viewJobs);
 	hideElement(jobDropList);
+	showFullJobMenu();
 }
 
 //hides archived jobs list
 var hideArchUL = function () {
-	showElement(viewArchived);
 	hideElement(jobArchives);
+	showFullJobMenu();
 }
 
 //creates an unordered list for each current job using string values in jobAttrs array
@@ -130,14 +162,41 @@ var appendJobListItem = function (jobObj, ul) {
 	return ul;
 }
 
+var appendArchJobListItem = function (jobObj, ul) {
+	jobAttrs.forEach(function(attr) {
+		var attribute = getJobText(attr);
+		var value = jobObj[attr];
+		var element = document.createElement('li');
+		element.innerHTML = attribute + value;
+		ul.appendChild(element);
+		if(attr="jobNumber") {
+			ul.id= jobObj[attr];
+		}
+	})	
+	var par = document.createElement('p');
+	par.innerHTML = ('====================');
+	ul.appendChild(par);
+	return ul;
+}
+
 //parses jobsArray in localStorage and constructs a jobs list from it using appendJobListItem function
 //appends job list element in argument list (this must be a javascript variable set to an element with particular id)
-var constructUL = function (arrayName, list, element) {
+var constructUL = function (arrayName, list, element, func) {
     var parsedArray = localStorage.getArray(arrayName);
 	
 	for(var i = 0; i < parsedArray.length; i++) {
       var jobUL = document.createElement('ul');
-      list.appendChild(appendJobListItem(parsedArray[i], jobUL));
+      list.appendChild(func(parsedArray[i], jobUL));
+	}
+	element.appendChild(list);
+}
+
+var constructArchUL = function (arrayName, list, element) {
+	var parsedArray = localStorage.getArray(arrayName);
+	
+	for(var i = 0; i < parsedArray.length; i++) {
+		var archJobUL = document.createElement('ul');
+		list.appendChild(appendArchJobListItem(parsedArray[i], archJobUL));
 	}
 	element.appendChild(list);
 }
@@ -186,22 +245,22 @@ var editJob = function() {
 		var val = selectedJob[attr];
         field.value = val;
 	}
-	showElement(jobForm);
-	showElement(jobCancel);
-	showElement(jobEditSave);
+	showEditJobForm();
 	hideElement(jobSubmit);
 	hideElement(jobDropList);
-	showElement(viewJobs);
+	hideFullJobMenu();
 }
 
 //submit edits, update lists
 var submitJobEdits = function () {
 	var editedJob = editJobFormSubmit();
 	localStorage.editArrayItem("jobsArray", "jobNumber", selectedJob["jobNumber"], editedJob);
-	hideElement(jobEditSave);
 	clearList(jobList);
-	constructUL("jobsArray", jobList, jobDropList);
+	constructUL("jobsArray", jobList, jobDropList, appendJobListItem);
 	updateJobSelects();
+	showFullJobMenu();
+	hideElement(jobEditSave);
+	hideJobForm();
 }
 
 //create array that contains only job names
@@ -225,12 +284,6 @@ var appendJobSelect = function(element, idName, arrayName) {
 	return jobSelect;	
 }
 
-//when creating new job and archiving a job
-//jobSelects must be updated without refresh
-//so this would be element jobMoveDrop, with select of id "jobSelected"
-//element jobArchSelect, with select of id "jobSelecting"
-//element jobEmpViewDrop, with select of id jobSelector"
-
 //updates job selects when called
 //call this when submitting form for new job, after editing a job, and after archiving a job
 //these functions are: submitJobEdits, archiveSelectedJob, createJob
@@ -249,12 +302,8 @@ var showArchiveButton = function () {
 
 //shows jobSelect when user clicks archive job button
 var showArchJobSelect = function () {
-    showSelect(appendJobSelect, jobArchSelect, showArchiveButton, "jobSelecting", "jobsArray", "jobs");
-	showElement(jobArchSelect);
-	hideElement(archiveJobs);
-	showElement(document.getElementById('jobArchCancel'));
+    showSelect(appendJobSelect, jobArchSelect, jobArchCancel, showArchiveButton, "jobSelecting", "jobsArray", "jobs", showFullJobMenu, hideFullJobMenu);
 }
-
 
 //archives the job selected by the user
 var archiveSelectedJob = function () {
@@ -264,9 +313,9 @@ var archiveSelectedJob = function () {
 	clearList(jobList);
 	clearList(archJobList);
 	//re-populate lists
-	constructUL("jobsArray", jobList, jobDropList);
-	constructUL("archivedJobs", archJobList, jobArchives);
-	showElement(archiveJobs);
+	constructUL("jobsArray", jobList, jobDropList, appendJobListItem);
+	constructUL("archivedJobs", archJobList, jobArchives, appendArchJobListItem);
+	showFullJobMenu();
 	hideElement(jobArchCancel);
 	hideElement(finalArchive);
 	hideElement(jobArchSelect);
@@ -275,20 +324,14 @@ var archiveSelectedJob = function () {
 
 //job event listeners
 jobsDropdown.addEventListener("click", showJobForm);
+jobsDropdown.addEventListener("click", hideFullJobMenu);
 jobSubmit.addEventListener("click", jobFormSubmit);
-deleteJob.addEventListener("click", erase);
 viewJobs.addEventListener("click", makeJobUL);
 hideJobs.addEventListener("click", hideUL);
 hideArchivedJobs.addEventListener("click", hideArchUL);
 archiveJobs.addEventListener("click", showArchJobSelect);
 finalArchive.addEventListener("click", archiveSelectedJob);
 jobCancel.addEventListener("click", createJobCancel);
-document.getElementById('jobArchCancel').addEventListener("click", createArchiveJobCancel);
+jobArchCancel.addEventListener("click", createArchiveJobCancel);
 jobEditSave.addEventListener("click", submitJobEdits);
 viewArchived.addEventListener("click", makeArchJobUL);
-
-
-
-
-
-

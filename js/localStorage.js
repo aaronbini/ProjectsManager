@@ -53,18 +53,9 @@ Storage.prototype.moveArrayItem = function(arrayName1, arrayName2, callback1, ca
 	})
 	localStorage.setItem(arrayName1, JSON.stringify(fromArrayUpdated));
 	localStorage.setItem(arrayName2, JSON.stringify(toArray));
-	console.log(fromArrayUpdated);
-	console.log(newArray);
 }
 
 //helper functions for above Storage methods
-
-//function for deleting job from localStorage array when the index is known
-//used during testing when I was creating many fake job and employee entries
-var erase = function () {
-	console.log("deleting job...");
-	localStorage.deleteItem("archivedJobs", 0);
-}
 
 //next three functions are helper functions for below Storage method moveArrayItem
 //these are used to archive jobs and to remove employees
