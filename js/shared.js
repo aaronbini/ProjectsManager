@@ -35,7 +35,7 @@ var extractValue = function (id) {
 			 if (radios[i].checked) {
 				 return radios[i].value;
 			 } else {
-				console.log("button not checked"); 
+				//console.log("button not checked"); 
 			 }
 		}
 	}
@@ -160,4 +160,5 @@ window.onload = function() {
 	if (localStorage && !localStorage.archivedJobs) {
 		localStorage.setItem('archivedJobs', JSON.stringify([]));
 	}
+	
 }
